@@ -17,7 +17,7 @@ import streamlit as st
 import plotly.express as px
 
 # Chargement des données
-df = pd.read_csv("C:/Projet-20250205/ds_salaries.csv")
+df = pd.read_csv("H:/SAE 601/Projet-20250205/ds_salaries.csv")
 
 
 ### 2. Exploration visuelle des données
@@ -125,11 +125,40 @@ filtre1 = st.slider(
 filtre2 = df[(df["salary_in_usd"] >= filtre1[0]) & (df["salary_in_usd"] <= filtre1[1])]
 st.write(filtre2)
 
-### 9.  Impact du télétravail sur le salaire selon le pays
+### 9. Impact du télétravail sur le salaire selon le pays
 
+st.subheader("🏡 Impact du télétravail sur le salaire selon le pays")
 
-
+if 'remote_ratio' in df.columns and 'company_location' in df.columns:
+    df['remote_category'] = df['remote_ratio'].apply(lambda x: 'Aucun' if x == 0 else ('Partiel' if x == 50 else 'Complet'))
+    
+    remote_salary = df.groupby(['company_location', 'remote_category'])['salary_in_usd'].mean().reset_index()
+    
+    fig = px.bar(
+        remote_salary, 
+        x='company_location', 
+        y='salary_in_usd', 
+        color='remote_category', 
+        title='Impact du télétravail sur le salaire selon le pays',
+        labels={'salary_in_usd': 'Salaire moyen', 'company_location': 'Pays', 'remote_category': 'Télétravail'},
+        barmode='group'
+    )
+    
+    st.plotly_chart(fig)
 
 ### 10. Filtrage avancé des données avec deux st.multiselect, un qui indique "Sélectionnez le niveau d'expérience" et l'autre "Sélectionnez la taille d'entreprise"
 #votre code 
 
+
+st.subheader("🎯 Filtrage avancé des données")
+
+experience_levels = df['experience_level'].unique()
+company_sizes = df['company_size'].unique()
+
+selected_experience = st.multiselect("Sélectionnez le niveau d'expérience", options=experience_levels, default=experience_levels)
+selected_size = st.multiselect("Sélectionnez la taille d'entreprise", options=company_sizes, default=company_sizes)
+
+# Filtrage des données
+filtered_df = df[(df['experience_level'].isin(selected_experience)) & (df['company_size'].isin(selected_size))]
+
+st.write(filtered_df)
