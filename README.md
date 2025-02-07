@@ -1,8 +1,10 @@
-📌 Projet d'Analyse des Salaires en Data Science
+Projet d'Analyse des Salaires en Data Science
 
 📄 Description du Projet
 
 Ce projet vise à explorer les tendances salariales dans le domaine de la Data Science en utilisant des données issues de Kaggle. L'application interactive est développée avec Streamlit et permet de visualiser divers aspects des salaires, en fonction du niveau d'expérience, du type d'emploi, du poste et de la localisation de l'entreprise.
+
+📊 Données utilisées
 
 Le jeu de données utilisé provient de Kaggle et contient des informations sur les salaires en Data Science, notamment :
 
@@ -59,5 +61,4 @@ L'application propose les fonctionnalités suivantes :
 
 🎛 Filtres dynamiques : Possibilité de filtrer les données en fonction du salaire et d'autres critères.
 
-📊 Données utilisées
 
